@@ -169,7 +169,7 @@ var archMap = map[string]Arch{
 }
 
 var archDynamicLinker = map[Arch]string{
-	Amd64: "/lib64/ld-linux-x86-64.so.2",
+	Amd64: "/run/current-system/sw/bin/ld.so",
 	Arm64: "/lib/ld-linux-aarch64.so.1",
 }
 
@@ -260,8 +260,8 @@ func NewMachineWithBackend(backendName string) (*Machine, error) {
 		m.AddVolume("/etc/alternatives")
 	}
 	// Debians binfmt registry
-	if _, err := os.Stat("/var/lib/binfmts"); err == nil {
-		m.AddVolume("/var/lib/binfmts")
+	if _, err := os.Stat("/run/binfmts"); err == nil {
+		m.AddVolume("/run/binfmts")
 	}
 
 	return m, nil
@@ -776,15 +776,15 @@ func (m *Machine) startup(command string, extracontent [][2]string) (int, error)
 	}
 
 	// Linker configuration
-	err = w.CopyFile("/etc/ld.so.conf")
-	if err != nil {
-		return -1, err
-	}
+	//err = w.CopyFile("/etc/ld.so.conf")
+	//if err != nil {
+	//	return -1, err
+	//}
 
-	err = w.CopyTree("/etc/ld.so.conf.d")
-	if err != nil {
-		return -1, err
-	}
+	//err = w.CopyTree("/etc/ld.so.conf.d")
+	//if err != nil {
+	//	return -1, err
+	//}
 
 	// Core system configuration
 	err = w.WriteFile("/etc/machine-id", "", 0444)
