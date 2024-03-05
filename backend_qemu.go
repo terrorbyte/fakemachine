@@ -81,11 +81,11 @@ func (b qemuBackend) KernelRelease() (string, error) {
 	}
 	release := string(u.Release[:bytes.IndexByte(u.Release[:], 0)])
 
-	if _, err := os.Stat(path.Join("/lib/modules", release)); err == nil {
+	if _, err := os.Stat(path.Join("/run/current-system/kernel-modules/lib/modules", release)); err == nil {
 		return release, nil
 	}
 
-	files, err := ioutil.ReadDir("/lib/modules")
+	files, err := ioutil.ReadDir("/run/current-system/kernel-modules/lib/modules")
 	if err != nil {
 		return "", err
 	}
@@ -136,7 +136,7 @@ func (b qemuBackend) ModulePath() (string, error) {
 		return "", err
 	}
 
-	moddir := "/lib/modules"
+	moddir := "/run/current-system/kernel-modules/lib/modules"
 	if mergedUsrSystem() {
 		moddir = "/usr/lib/modules"
 	}
