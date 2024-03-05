@@ -7,7 +7,6 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"github.com/alessio/shellescape"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -18,6 +17,8 @@ import (
 	"strconv"
 	"strings"
 	"text/template"
+
+	"github.com/alessio/shellescape"
 
 	writerhelper "github.com/go-debos/fakemachine/cpio"
 )
@@ -227,9 +228,9 @@ func NewMachineWithBackend(backendName string) (*Machine, error) {
 	m.addStaticVolume("/usr", "usr")
 
 	if !mergedUsrSystem() {
-		m.addStaticVolume("/sbin", "sbin")
-		m.addStaticVolume("/bin", "bin")
-		m.addStaticVolume("/lib", "lib")
+		m.addStaticVolume("/run/current-system/sw/sbin", "sbin")
+		m.addStaticVolume("/run/current-system/sw/bin", "bin")
+		m.addStaticVolume("/run/current-system/sw/lib", "lib")
 	}
 
 	// Mounts for ssl certificates
@@ -638,7 +639,7 @@ func (m *Machine) cleanup() {
 func (m *Machine) startup(command string, extracontent [][2]string) (int, error) {
 	defer m.cleanup()
 
-	os.Setenv("PATH", os.Getenv("PATH")+":/sbin:/usr/sbin")
+	os.Setenv("PATH", os.Getenv("PATH")+":/sbin:/usr/sbin:/run/current-system/sw/bin:/run/current-system/sw/sbin")
 
 	/* Sanity check mountpoints */
 	for _, v := range m.mounts {
