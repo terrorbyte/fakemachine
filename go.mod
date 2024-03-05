@@ -12,3 +12,5 @@ require (
 	github.com/ulikunitz/xz v0.5.11
 	golang.org/x/sys v0.17.0
 )
+
+replace github.com/go-debos/fakemachine v0.0.10 => github.com/terrorbyte/fakemachine v0.0.0-20240305202222-c32fa55e60c2
