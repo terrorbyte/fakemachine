@@ -746,9 +746,9 @@ func (m *Machine) startup(command string, extracontent [][2]string) (int, error)
 	}
 
 	/* Ensure systemd-resolved is available */
-	if _, err := os.Stat("/lib/systemd/systemd-resolved"); err != nil {
-		return -1, err
-	}
+	//if _, err := os.Stat("/lib/systemd/systemd-resolved"); err != nil {
+	//	return -1, err
+	//}
 
 	dynamicLinker := archDynamicLinker[m.arch]
 	err = w.CopyFile(prefix + dynamicLinker)
